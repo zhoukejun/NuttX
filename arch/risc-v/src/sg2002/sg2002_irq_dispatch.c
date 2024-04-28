@@ -51,7 +51,6 @@
 
 void *riscv_dispatch_irq(uintptr_t vector, uintptr_t *regs)
 {
-//  sinfo("vector: 0x%08x%08x\n", vector >> 32, vector & 0xFFFFFFFF);
   int32_t irq = vector & 0x1f;
 
   /* If current is interrupt */
@@ -65,8 +64,6 @@ void *riscv_dispatch_irq(uintptr_t vector, uintptr_t *regs)
         {
           case RISCV_IRQ_MTIMER:
             {
-  //            sinfo("mtimer\n");
-
               /* Deliver the IRQ */
 
               regs = riscv_doirq(irq, regs);
@@ -78,8 +75,6 @@ void *riscv_dispatch_irq(uintptr_t vector, uintptr_t *regs)
           case RISCV_IRQ_MEXT:
             {
               uint32_t val = getreg32(SG2002_PLIC_MCLAIM);
-
-//              sinfo("mclaim: 0x%08x\n", val);
 
               /* Add the value to nuttx irq which is offset to the mext */
 
@@ -95,7 +90,6 @@ void *riscv_dispatch_irq(uintptr_t vector, uintptr_t *regs)
 	       *
 	       * To clean MCLAIM should minues RISCV_IRQ_MEXT */
 	       
-//              sinfo("clean mclaim by value: 0x%08x\n", irq - RISCV_IRQ_MEXT);
               putreg32(irq - RISCV_IRQ_MEXT, SG2002_PLIC_MCLAIM);
               break;
             }

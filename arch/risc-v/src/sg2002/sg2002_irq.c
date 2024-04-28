@@ -45,10 +45,13 @@
 
 void up_irqinitialize(void)
 {
-  sinfo("=============\n");
   /* Disable Machine interrupts */
 
   up_irq_save();
+
+  /* enable access from supervisor mode */
+
+  putreg32(0x1, SG2002_PLIC_CTRL);
 
   /* Disable all global interrupts */
 
@@ -57,7 +60,7 @@ void up_irqinitialize(void)
 
   /* Clear pendings in PLIC */
 
- uint32_t val = getreg32(SG2002_PLIC_MCLAIM);
+  uint32_t val = getreg32(SG2002_PLIC_MCLAIM);
   putreg32(val, SG2002_PLIC_MCLAIM);
 
   /* Colorize the interrupt stack for debug purposes */
@@ -102,7 +105,6 @@ void up_irqinitialize(void)
 
 void up_disable_irq(int irq)
 {
-  sinfo("~~~~~~~~~~+++===+++===irq: %d\n", irq);
   int extirq = 0;
 
   if (irq == RISCV_IRQ_MSOFT)
@@ -146,8 +148,6 @@ void up_disable_irq(int irq)
 
 void up_enable_irq(int irq)
 {
-  sg2002_print_hex(irq);
-  sinfo("irq: %d, in hex: 0x%08x\n", irq, irq);
   int extirq;
 
   if (irq == RISCV_IRQ_MSOFT)
@@ -170,7 +170,6 @@ void up_enable_irq(int irq)
         {
 
           extirq = irq - RISCV_IRQ_MEXT;
-          sinfo("extirq %d, in hex: 0x%08x\n", extirq, extirq);
 
           modifyreg32(SG2002_PLIC_MIE0 + (4 * (extirq / 32)),
                       0, 1 << (extirq % 32));
@@ -204,7 +203,6 @@ void riscv_ack_irq(int irq)
 
 irqstate_t up_irq_enable(void)
 {
-  sinfo("line: %d\n", __LINE__);
   irqstate_t oldstat;
 
   /* Enable MEIE (machine external interrupt enable) */
