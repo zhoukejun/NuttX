@@ -240,7 +240,7 @@ void sg2002_print_hex(uintptr_t hex)
 	unsigned char tmp;
 	riscv_lowputc('\r');
 	riscv_lowputc('\n');
- 	riscv_lowputc('[');
+	riscv_lowputc('[');
 	riscv_lowputc('0');
 	riscv_lowputc('x');
 	for (i = sizeof(uintptr_t) * 2 - 1; i >= 0; i--) {
@@ -258,7 +258,7 @@ void sg2002_print_hex(uintptr_t hex)
 			riscv_lowputc(' ');
 		}	
 	}
- 	riscv_lowputc(']');
+	riscv_lowputc(']');
 	riscv_lowputc('\r');	
 	riscv_lowputc('\n');	
 

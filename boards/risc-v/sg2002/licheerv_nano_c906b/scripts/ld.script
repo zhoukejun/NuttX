@@ -80,7 +80,7 @@ SECTIONS
         *(COMMON)
         . = ALIGN(32);
         _ebss = ABSOLUTE(.);
-    } > sram 
+    } > sram
 
     /* Stabs debugging sections. */
 
