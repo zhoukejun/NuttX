@@ -91,6 +91,8 @@ static uint64_t riscv_mtimer_get_mtime(struct riscv_mtimer_lowerhalf_s *priv)
    */
 
   return -1 == priv->mtime ? READ_CSR(CSR_TIME) : getreg64(priv->mtime);
+#elif defined(CONFIG_ARCH_CHIP_SG2002)
+  return READ_CSR(CSR_TIME);
 #else
   uint32_t hi;
   uint32_t lo;
