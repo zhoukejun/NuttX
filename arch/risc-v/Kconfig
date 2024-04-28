@@ -328,6 +328,21 @@ config ARCH_CHIP_RISCV_CUSTOM
 	---help---
 		Select this option if there is no directory for the chip under arch/risc-v/src/.
 
+config ARCH_CHIP_SG2002
+	bool "SOPHGO SG2002 SoC THEAD C906B Main Core"
+	select ARCH_RV64
+	select ARCH_RV_ISA_M
+	select ARCH_RV_ISA_A
+	select ARCH_RV_ISA_C
+	select ARCH_RV_ISA_ZICSR_ZIFENCEI
+	select ARCH_HAVE_FPU
+	select ARCH_HAVE_DPFPU
+	select ARCH_HAVE_MPU
+	select ONESHOT
+	select ALARM_ARCH
+	---help---
+		Sophgo SG2002 SoC features THEAD C906B core (RISC-V 64bit core with rv64imafdc_zicsr_zifencei ISA).
+
 endchoice # RISC-V chip selection
 
 config ARCH_RV32
@@ -419,6 +434,7 @@ config ARCH_RV_MMIO_BITS
 	int
 	# special cases
 	default 32 if ARCH_CHIP_K230
+	default 32 if ARCH_CHIP_SG2002
 	# general fallbacks
 	default 32 if ARCH_RV32
 	default 64 if ARCH_RV64
@@ -447,6 +463,7 @@ config ARCH_CHIP
 	default "jh7110"                if ARCH_CHIP_JH7110
 	default "bl808"                 if ARCH_CHIP_BL808
 	default "k230"                  if ARCH_CHIP_K230
+	default "sg2002"		if ARCH_CHIP_SG2002
 
 config ARCH_RISCV_INTXCPT_EXTENSIONS
 	bool "RISC-V Integer Context Extensions"
@@ -644,5 +661,8 @@ source "arch/risc-v/src/bl808/Kconfig"
 endif
 if ARCH_CHIP_K230
 source "arch/risc-v/src/k230/Kconfig"
+endif
+if ARCH_CHIP_SG2002
+source "arch/risc-v/src/sg2002/Kconfig"
 endif
 endif # ARCH_RISCV

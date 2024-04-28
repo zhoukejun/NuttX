@@ -1,0 +1,37 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+comment "SG2002 Configuration Options"
+
+config SG2002_ENABLE_DPFPU
+	bool "SG2002 DP_FPU Support"
+	default n
+	select ARCH_HAVE_FPU
+	select ARCH_HAVE_DPFPU
+	---help---
+		Enable the RISC-V Double-Precision Floating Point Unit (DP-FPU).
+
+menu "SG2002 Peripheral Support"
+
+# These "hidden" settings determine whether a peripheral option is available
+# for the selected MCU
+
+config SG2002_HAVE_UART0
+	bool
+	default y
+	select UART0_SERIALDRIVER
+	select ARCH_HAVE_SERIAL_TERMIOS
+
+# These are the peripheral selections proper
+
+config SG2002_UART0
+	bool "UART0"
+	default y
+	select ARCH_HAVE_UART0
+	select ARCH_HAVE_SERIAL_TERMIOS
+	select SG2002_UART
+
+endmenu
+
